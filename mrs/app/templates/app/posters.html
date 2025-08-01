@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href='{% static "app/css/posters.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+{% for poster in posters %}
+{% if forloop.counter0|add:'4'|divisibleby:4 %}
+
+<div class='row  actice1'>
+    {% endif %}
+
+    <div class="col-4 d-flex   search-card p-0 rounded  " >
+        <div>
+                <img class='rounded-start border ' src="https://image.tmdb.org/t/p/w500/{{ poster.file_path }}" >
+        </div>
+
+    </div>
+
+    {% if forloop.counter|divisibleby:4 %}
+</div>
+{% endif %}
+{% endfor %}
+</div>
+{% endblock %}
+

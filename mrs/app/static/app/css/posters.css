@@ -1,0 +1,20 @@
+body {
+    margin-top: 60px;
+    /* background-color:red;     */
+}
+.actice1 {
+    padding: 4px 50px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.search-card {
+    width: 25%; 
+    height: 350px;
+}
+
+.search-card img{
+    /* width: 140px;  */
+    height: 100%;
+    object-fit: left cover;
+}

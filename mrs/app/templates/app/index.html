@@ -1,0 +1,59 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href='{% static "app/css/style.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+{% for genre,movies in genresDict.items %}
+<div class='m-2 genre-block' id="genre-{{ genre|slugify }}">
+    <div class="d-flex" >
+            <p><strong>{{ genre }}</strong></p>
+
+            <a href="/movies/search/{{ genre|slugify }}/" class='link-videos text-primary ms-auto text-decoration-none'>
+                View all {{ genre }}
+            </a>
+        </div>
+
+    <div class=" movie-list d-flex overflow-auto flex-nowrap scrollbar" data-genre="{{ genre|slugify }}" data-page="1">
+        {% for movie in movies %}
+
+        <div class="me-3 movie-card">
+            <a class='text-decoration-none text-reset' href="{% url 'movies_details' movie.id  %}">
+                <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" class="img-fluid rounded"
+                    alt="{{ movie }}">
+
+                <div class="movie-title mt-2" data-title="{{ movie }}">
+                    <strong>{{ movie.title }}</strong>
+                </div>
+            </a>
+
+            <div class="text-muted small light">{{ movie.release_date }}</div>
+        </div>
+
+        {% endfor %}
+
+        {% if movies|length == 10 %}
+        <button class='btn p-0 border-0 bg-transparent shadow-none load-more-btn button-card ' data-genre="{{ genre|slugify }}">
+
+            <span class="arrow-circle" style="margin-left: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24"
+                    stroke="#3B82F6" class="arrow-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4v12m0 0l-6-6m6 6l6-6" />
+                </svg>
+            </span>
+
+        </button>
+        {% endif %}
+    </div>
+
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+<script src='{% static "app/js/ajax.js" %}'></script>
+{% endblock %}

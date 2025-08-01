@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href='{% static "app/css/videos.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+<div class="container1">
+    <div>
+        <h3 class='mb-3 text-center '>{{ title }} </h3>
+    </div>
+    {% for video in videos %}
+    {% if forloop.counter0|divisibleby:2 %}
+
+    <div class='row d-flex actice1 justify-content-between'>
+    <!-- <div class='row d-flex actice1 '> -->
+        {% endif %}
+
+        <div class="col p-0 rounded border search-card  ">
+
+            <iframe class="rounded" src="https://www.youtube.com/embed/{{ video.key }}"  allowfullscreen>
+            </iframe>
+
+        </div>
+
+        {% if forloop.counter|divisibleby:2 %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

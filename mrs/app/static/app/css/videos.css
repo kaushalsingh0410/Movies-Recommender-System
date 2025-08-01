@@ -1,0 +1,18 @@
+body {
+    margin-top: 60px;
+    /* background-color:red;     */
+}
+.actice1 {
+    padding: 10px 10px;
+    margin-left: 50px;
+}
+.search-card {
+    margin: 10px;
+    height: 300px;
+}
+
+.search-card iframe {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}

@@ -1,0 +1,53 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href="{% static 'app/css/search.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+{% if movies %}
+{% for movie in movies %}
+{% if forloop.counter0|divisibleby:2 %}
+<div class='row m-3 justify-content-between'>
+    {% endif %}
+
+    <div class="col-6 d-flex border  p-0 rounded shadow " style=" width: 49%; height: 200px;  ">
+        <div>
+            <a class='text-decoration-none text-reset' href="{% url 'movies_details' movie.id  %}">
+
+                <img class='rounded-start' style='width: 140px; height: 100%;  object-fit: left cover;'
+                    src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie }}">
+            </a>
+        </div>
+        <div class='m-3'>
+            <a class='text-decoration-none text-reset' href="{% url 'movies_details' movie.id  %}">
+                <p class='m-0'>{{ movie.title }}</p>
+            </a>
+            <p class='text-muted'>{{ movie.release_date }}</p>
+            <p class='mt-3 small'
+                style="font-size: 14px; line-height: 1.4; margin: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;">
+                {{ movie.overview }}</p>
+        </div>
+
+    </div>
+
+    {% if forloop.counter|divisibleby:2 %}
+</div>
+{% endif %}
+
+{% endfor %}
+
+{% else %}
+<h3 class='text-center mt-5'>There are no movies matched to {{title}}. </he>
+    {% endif %}
+
+
+
+    {% endblock %}
+
+    {% block script %}
+    <script src="{% static 'app/js/search.js' %}"></script>
+    {% endblock %}

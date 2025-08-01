@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# Django
+*.pot
+*.pyc
+db.sqlite3
+*.pyc
+media/
+staticfiles/
+
+# Ignore migrations
+**/migrations/
+!**/migrations/__init__.py
+
+# VS Code
+.vscode/
+
+# Environments
+.env
+venv/
+env/
+
+node_modules/
+mrs/app/ml_models/similarity.joblib
+mrs/assets/row_data.csv

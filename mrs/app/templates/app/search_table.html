@@ -1,0 +1,94 @@
+
+{% if movies %}
+{% for movie in movies %}
+{% if forloop.counter0|divisibleby:2 %}
+<div class='row m-3 justify-content-between'>
+    {% endif %}
+
+    <div class="col-6 d-flex border search-card p-0 rounded shadow " >
+        <div>
+            <a class='text-decoration-none text-reset' href="{% url 'movies_details' movie.id  %}">
+
+                <img class='rounded-start' src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie }}">
+            </a>
+        </div>
+        <div class='m-3'>
+            <a class='text-decoration-none text-reset' href="{% url 'movies_details' movie.id  %}">
+                <p class='m-0'>{{ movie.title }}</p>
+            </a>
+            <p class='text-muted'>{{ movie.release_date }}</p>
+            <p class='mt-3 small'
+                style="font-size: 14px; line-height: 1.4; margin: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;">
+                {{ movie.overview }}</p>
+        </div>
+
+    </div>
+
+    {% if forloop.counter|divisibleby:2 %}
+</div>
+{% endif %}
+{% endfor %}
+
+
+
+{% if  previous or next %}
+<nav aria-label="Page navigation ">
+<ul class ="pagination justify-content-center">
+    {% if previous %}
+    <li >
+        <a class = 'text-decoration-none text-dark m-2' href = '?page={{ movies.previous_page_number }}&title={{ title }}'>← Previous</a>
+    </li>
+    {% else %}
+    <li class = ' disabled'>
+    <span class = 'm-2 text-decoration-none light text-muted'>← Previous</span>
+    </li>
+    {% endif %}
+
+    {% for page in page_range %}
+
+    {% if page == '...' %}
+        <li class=" disabled"><span class="m-2">...</span></li>
+    {% elif page == movies.number %}
+        <li class = 'actice'>
+        <span class = 'm-2 actice1  rounded-pill  bg-secondary text-white' >{{ page }}</span>    
+        </li>
+    {% else %}
+        <li >
+            <a class="m-2 text-decoration-none text-dark" href = '?page={{ page }}&title={{ title }}'>{{ page }}</a>
+        </li>
+
+    {% endif %}
+    {% endfor %}
+    
+    {% if next %}
+    <li >
+        <a class = 'm-2 text-decoration-none text-dark' href = '?page={{ movies.next_page_number }}&title={{ title }}'>Next →</a>
+    </li>
+    {% else %}
+    <li class = ' disabled'>
+    <span class = 'm-2 text-decoration-none light text-muted'>Next →</span>
+    </li>
+    {% endif %}
+    {% endif %}
+
+        
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
+<h3 class='text-center mt-5'>There are no movies matched to {{title}}. </he>
+    {% endif %}
+

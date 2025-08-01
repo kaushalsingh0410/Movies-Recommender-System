@@ -1,0 +1,68 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href='{% static "app/css/credits.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <h3 class='mb-3 text-center '>{{ title }} </h3>
+</div>
+
+<div class='row m-4'>
+
+    <div class="col-6 ">
+        <div class='text-center'><strong>Casts</strong> <strong class='text-muted'>{{ casts|length }}</strong></div>
+        <div class="m-4">
+            {% for cast in casts %}
+            <div class="me-3 custom-shadow  actor-card  ">
+
+                <div><img src="https://image.tmdb.org/t/p/w500/{{ cast.profile_photo }}" class="img-fluid rounded" ></div>
+
+                <div class='m-3 '>
+                    <div class="actor-title mt-2" data-title="{{ cast.name }}">
+                        <samll>{{ cast.name }}</samll>
+                    </div>
+                    <div class="text-muted small light  actor-title" data-title="{{ cast.character }}">{{ cast.character}}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <div class="col-6">
+
+        <div class='text-center'><strong>crews</strong> <strong class='text-muted'>{{ crews|length }}</strong></div>
+        <div class="m-4">
+            {% for crew in crews %}
+            <div class="me-3 custom-shadow  actor-card  ">
+
+                <div><img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" class="img-fluid rounded" ></div>
+
+                <div class='m-3 '>
+                    <div class="actor-title mt-2" data-title="{{ crew.name }}" >
+                        <samll>{{ crew.name }}</samll>
+                    </div>
+                    <div class="text-muted small light  actor-title" data-title="{{ crew.character }}">{{ crew.job}}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src='{% static "app/js/credits.js" %}'></script>
+{% endblock %}

@@ -1,0 +1,294 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block style %}
+<link href='{% static "app/css/movie.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="movie-banner text-white  small"
+    style="background-image: url('https://image.tmdb.org/t/p/original/{{ movie.backdrop_path }}');">
+    <div class=' d-flex layout '>
+
+        <div class="poster ">
+            <img src="https://image.tmdb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded shadow"
+                alt="{{ movie }}">
+        </div>
+
+        <div style="padding-left: 50px ;">
+            <section class="info">
+
+                <header class="upper-part">
+                    <h1>{{ movie.title }} <small>({{ movie.release_date.year }})</small></h1>
+                    <!-- <p> -->
+                    <time datetime="{{ movie.release_date }}">{{ movie.release_date|date:"d/m/y" }}</time> &bull;
+                    {% for genre in genres %}
+                    <span>{{ genre }}</span>
+                    {% endfor %}
+                    &bull;
+                    {{ runtime }}
+
+                    <!-- </p> -->
+                </header>
+
+
+
+                <section class="medile-part1">
+                    {% if movie.tageline %}
+                    <blockquote class="fst-italic">{{ movie.tageline }}</blockquote>
+                    {% endif %}
+                    <h4>Overview</h4>
+                    <p>{{ movie.overview }}</p>
+                </section>
+
+                <section class="medile-part">
+                    {% for crew in crews %}
+                    <div class="row mt-3">
+                        {% for person in crew %}
+                        <div class="col-3">
+                            <p class='mb-0'><strong>{{ person.name }}</strong></p>
+                            <p class='mt-0'><small>{{ person.role }}</small></p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+
+
+                </section>
+
+            </section>
+        </div>
+    </div>
+</div>
+
+
+<div class="row layout">
+
+    <div class="col-11">
+        <div class="d-flex">
+            <p><strong>Top Billed Cast</strong></p>
+
+            <a href="{% url 'credits' movie.id  %}" class='link-videos text-primary ms-auto text-decoration-none'>
+                View all Credits
+            </a>
+        </div>
+
+        <div class=" scrollbar d-flex overflow-auto flex-nowrap">
+
+            {% for cast in casts|slice:':10' %}
+            <div class="me-3 custom-shadow actor-card border ">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ cast.profile_photo }}" class="img-fluid rounded"
+                        alt="{{ cast }}">
+
+                    <div class="actor-title mt-2" data-title="{{ cast.name }}">
+                        <strong>{{ cast.name }}</strong>
+                    </div>
+
+                <div class="text-muted small light m-0  actor-title" data-title="{{ cast.character }}">{{ cast.character }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        {% if companies %}
+        <p class='mt-2'><strong>Companies </strong></p>
+        <div class=" scrollbar d-flex overflow-auto flex-nowrap">
+
+            {% for company in companies %}
+            <div class="me-3 company-card border   shadow ">
+                <img src="https://image.tmdb.org/t/p/w1280/{{ company.poster }}" class="img-fluid rounded"
+                    alt="{{ company }}">
+
+                <div class="actor-title mt-2" data-title="{{ company.name }}">
+                    <strong>{{ company.name }}</strong>
+                </div>
+
+                <div class="text-muted small light margin-left">{{ company.country }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if movie.belongsToCollection.name %}
+        <hr>
+        <p class='mt-2'><strong>Part of the {{ movie.belongsToCollection.name }}</strong></p>
+        <div class='collection'>
+            <img src="https://image.tmdb.org/t/p/w1440_and_h320_multi_faces/{{ movie.belongsToCollection.backdrop }}"
+                class="img-fluid rounded" alt="{{ movie.belongsToCollection.name }}">
+        </div>
+        {% endif %}
+
+        <hr class="mt-5">
+
+        <div class="d-flex">
+            <div class='tabs '>
+                <span class='tab active' data-link='link-videos' data-tab='videos'>Videos <small
+                        class='text-muted light'>{{ videos|length }}</small> </span>
+                <span class='tab ' data-link='link-backdrops' data-tab='backdrops'>Backdrops <small
+                        class='text-muted light'>{{ backdrops|length }}</small> </span>
+                <span class='tab ' data-link='link-posters' data-tab='posters'>Posters <small
+                        class='text-muted light'>{{ posters|length }} </small> </span>
+            </div>
+
+            {% if videos|length > 3 %}
+            <a href="{% url 'videos' movie.id %}" class='link-videos text-primary ms-auto text-decoration-none'>
+                View all videos
+            </a>
+            {% endif %}
+            {% if backdrops|length > 6 %}
+            <a href="{% url 'backdrops' movie.id %}"
+                class='link-backdrops text-primary ms-auto text-decoration-none'>
+                View all Backdrops
+            </a>
+            {% endif %}
+
+            {% if posters|length > 6 %}
+            <a href="{% url 'posters' movie.id %}"
+                class='link-posters text-primary ms-auto text-decoration-none'>
+                View all Posters
+            </a>
+            {% endif %}
+
+        </div>
+
+        <div class='media-section active' id='videos'>
+            <div class="scroll-container scrollbar">
+                {% for video in videos|slice:":6" %}
+                {% if video.site == 'YouTube' %}
+                <div class="media-item">
+                    <div class="media-wrapper">
+                        <iframe src="https://www.youtube.com/embed/{{ video.key }}" frameborder="0" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="media-section" id="backdrops">
+            <div class="scroll-container scrollbar">
+                {% for backdrop in backdrops|slice:":8" %}
+                <div class="">
+
+                    <img src="https://media.themoviedb.org/t/p/w533_and_h300_bestv2{{ backdrop.file_path }}" frameborder="0"
+                        allowfullscreen></img>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="media-section" id="posters">
+            <div class="scroll-container scrollbar">
+                {% for poster in posters|slice:":8" %}
+                <div class="media-img">
+
+                    <img src="https://image.tmdb.org/t/p/w500/{{ poster.file_path }}" frameborder="0"
+                        allowfullscreen></img>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div> 
+
+        <div class='mt-3 '>
+            <hr>
+            <strong>Recommendations</strong>
+
+            <div class=" scrollbar d-flex overflow-auto flex-nowrap">
+
+                {% for recommend in recommendtion %}
+                <!-- <div class="me-3 shadow movie-card"> -->
+                <div class="me-3 recommend-card border ">
+                    <a class='text-decoration-none text-reset' href="{% url 'movies_details' recommend.id  %}">
+                        <img src="https://image.tmdb.org/t/p/w500/{{ recommend.poster_path }}" class="img-fluid rounded"
+                            alt="{{ recommend }}">
+
+                        <div class="actor-title mt-2" data-title="{{ recommend.title }}">
+                            <strong>{{ recommend.title }}</strong>
+                        </div>
+                    </a>
+
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+
+    <div class="col-1" style="padding-top: 50px; z-index: 1;">
+
+        {% if movie.homepage %}
+        <p class="actor-title" data-title="{{ movie.homepage }}">
+            <a class='text-decoration-none text-reset' href="{{ movie.homepage }}"><strong>Homepage</strong></a>
+        </p>
+        {% endif %}
+
+        {% if movie.budget %}
+        <p>
+            <strong>Budget</strong>
+            <span>${{ movie.budget|intcomma }}</span>
+        </p>
+        {% endif %}
+
+        {% if movie.revenue %}
+        <p>
+            <strong>Revenue</strong>
+            <span>${{ movie.revenue|intcomma }}</span>
+        </p>
+        {% endif %}
+
+        <p><strong>Rating</strong><br> {{ vote_average }}%</p>
+        <p><strong>Vote </strong><br> {{ movie.vote_count }}</p>
+        <p><strong>Adult</strong><br> {% if movie.adult %} T {% else %} F {% endif%}</p>
+
+        <p>
+            <strong>Languages</strong><br>
+            {% for lang in languages %}
+            <span class='badge rounded-pill bg-secondary'>{{ lang }}</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            <strong>Countries</strong><br>
+            {% for cty in country %}
+            <span class='badge rounded-pill bg-secondary'>{{ cty }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            <strong>Keywords</strong><br>
+
+            {% for key in keyword %}
+            {% if key|length < 31 %} 
+            <a href="/movies/search/{{ key|slugify }}/"
+                class="badge rounded-pill bg-secondary text-decoration-none text-white ">
+                {{ key }}
+                </a>
+
+                <!-- <button  class="badge rounded-pill button bg-secondary text-decoration-none  key-title" data-key = {{ key|slugify }}>{{ key }}</button> -->
+                {% endif %}
+                <!-- <span class = 'badge rounded-pill bg-secondary'>{{ movie }}</span> -->
+                {% endfor %}
+        </p>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src='{% static "app/js/movie.js" %}'></script>
+{% endblock %}

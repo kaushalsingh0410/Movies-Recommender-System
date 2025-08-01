@@ -1,0 +1,18 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href="{% static 'app/css/search.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="result">
+{% include 'app/search_table.html' %}
+</div>
+
+{% endblock %}
+
+    {% block script %}
+    <script src="{% static 'app/js/search.js' %}"></script>
+    {% endblock %}

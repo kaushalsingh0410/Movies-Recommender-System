@@ -1,0 +1,43 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href='{% static "app/css/backdrop.css" %}' rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+<div class="container">
+    <div>
+    <h3 class='mb-3 text-center '>{{ title }} </h3>
+</div>
+{% for backdrop in backdrops %}
+{% if forloop.counter0|divisibleby:2 %}
+
+<div class='row d-flex actice1 justify-content-between'>
+    {% endif %}
+
+    <div class="col     search-card p-0 rounded  " >
+        <div>
+                <img class='rounded border ' src="https://image.tmdb.org/t/p/w500/{{ backdrop.file_path }}" >
+        </div>
+
+    </div>
+
+    {% if forloop.counter|divisibleby:2 %}
+</div>
+{% endif %}
+{% endfor %}
+</div>
+
+
+
+
+
+
+{% endblock %}
