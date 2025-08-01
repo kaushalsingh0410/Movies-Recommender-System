@@ -25,5 +25,4 @@ venv/
 env/
 
 node_modules/
-mrs/app/ml_models/similarity.joblib
-mrs/assets/row_data.csv
+
