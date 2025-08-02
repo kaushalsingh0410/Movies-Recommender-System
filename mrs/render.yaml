@@ -1,7 +1,7 @@
 # render.yaml
 services:
   - type: web
-    name: mrs-django-app
+    name: mrs-Rkaushal
     env: python
     buildCommand: ""
     startCommand: gunicorn mrs.wsgi:application
