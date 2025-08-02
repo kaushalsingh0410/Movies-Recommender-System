@@ -180,7 +180,7 @@ def videos(request,id):
     videos = [video for video in movie.video.all() ]
     
     data = {
-        'title':f'{movie.title} {movie.release_date.year}',
+        'title':f'{movie.title} ({movie.release_date.year})',
         'genresDict':genresDictHeader,
         'videos':videos,
         
@@ -192,7 +192,7 @@ def backdrops(request,id):
     backdrops = [backdrop for backdrop in movie.backdrop.all() ]
     
     data = {
-        'title':f'{movie.title} {movie.release_date.year}',
+        'title':f'{movie.title} ({movie.release_date.year})',
         'genresDict':genresDictHeader,
         'backdrops':backdrops,
         
@@ -204,7 +204,7 @@ def posters(request,id):
     posters = [poster for poster in movie.poster.all() ]
     
     data = {
-        'title':f'{movie.title} {movie.release_date.year}',
+        'title':f'{movie.title} ({movie.release_date.year})',
         'genresDict':genresDictHeader,
         'posters':posters,
         
