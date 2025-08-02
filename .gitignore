@@ -13,8 +13,7 @@ media/
 staticfiles/
 
 # Ignore migrations
-**/migrations/
-!**/migrations/__init__.py
+
 
 # VS Code
 .vscode/
