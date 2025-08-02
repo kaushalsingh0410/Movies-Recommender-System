@@ -1,12 +1,14 @@
-# render.yaml
 services:
   - type: web
     name: mrs-Rkaushal
     env: python
-    buildCommand: ""
-    startCommand: gunicorn mrs.wsgi:application
+    buildCommand: "cd mrs && pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "cd mrs && gunicorn mrs.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: mrs.settings
       - key: PYTHON_VERSION
         value: 3.12.2
+      - key: DJANGO_SECRET_KEY
+        value: django-insecure-7ntd&t#2*l-s+&q647=$$64bga73i$1o=e**y@$3t9c9j0u*pv
+
